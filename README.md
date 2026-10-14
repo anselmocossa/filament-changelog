@@ -50,7 +50,8 @@ database, and get a clean, read-only changelog page out of the box.
   you type, jump to a single version, and load version cards as you scroll
 - 📝 Management resource to create/read/edit entries, grouped by version
 - 🏷️ Typed changes (Added, Changed, Deprecated, Removed, Fixed, Security) with colored badges
-- ⬆️ **Import** an existing `CHANGELOG.md` (upload, paste, or `changelog:import`)
+- ⬆️ **Import** an existing `CHANGELOG.md` (upload, paste, or `changelog:import`) —
+  also when it is written in Portuguese (`### Adicionado`, `## [Não lançado]`)
 - ⬇️ **Export** the database back to a `CHANGELOG.md` (download, or `changelog:export`)
 - 🌍 **Translations** — English, European & Brazilian Portuguese (extendable)
 - 🔗 **Live file / remote source** — read your own `CHANGELOG.md` or a GitHub URL, re-parsed on every visit
@@ -202,6 +203,20 @@ php artisan vendor:publish --tag="changelog-translations"
 > The generated `CHANGELOG.md` always uses the canonical English section
 > headings (`### Added`, `### Fixed`, …) regardless of locale, so the file stays
 > valid Keep a Changelog and round-trips cleanly.
+
+### Changelogs written in other languages
+
+Import and the live file reader also understand a `CHANGELOG.md` written in any
+bundled language. Section headings are matched against the label the package
+renders in each language, ignoring accents, case and extra spaces, so
+`### Adicionado` reads as *Added* and `### Corrigido` as *Fixed*. The unreleased
+section is recognised however it is spelled — `## [Unreleased]`,
+`## [Não lançado]`, `## [Não publicado]`, `## [Sem lançamento]` or the
+translated label — and always sorts first.
+
+Adding a translation to the package also teaches the reader to parse files
+written in that language. The matching lives in `Support\Headings`, public so an
+application can reuse it when it extends the parser.
 
 ## Reader source & file path
 
